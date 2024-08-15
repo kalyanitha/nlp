@@ -1,0 +1,64 @@
+a) Install NLTK
+Python 3.9.2 Installation on Windows
+Step 1) Go to link https://www.python.org/downloads/, and select the latest 
+version for windows.
+Note: If you don't want to download the latest version, you can visit the 
+download tab and see all releases.
+Step 2) Click on the Windows installer (64 bit)
+Step 3) Select Customize Installation 
+Step 4) Click NEXT
+Step 5) In next screen
+1. Select the advanced options
+2. Give a Custom install location. Keep the default folder as c:\Program 
+files\Python39
+3. Click Install
+Step 6) Click Close button once install is done.
+Step 7) open command prompt window and run the following commands:
+C:\Users\Beena Kapadia>pip install --upgrade pip
+C:\Users\Beena Kapadia> pip install --user -U nltk
+C:\Users\Beena Kapadia> >pip install --user -U numpy
+C:\Users\Beena Kapadia>python
+>>> import nltk
+>>>
+
+
+1b)b) Convert the given text to speech.
+Source code:
+
+# text to speech
+# pip install gtts
+# pip install playsound
+from playsound import playsound
+# import required for text to speech conversion
+from gtts import gTTS
+mytext = "Welcome to Natural Language programming"
+language = "en"
+myobj = gTTS(text=mytext, lang=language, slow=False)
+myobj.save("myfile.mp3")
+playsound("myfile.mp3")
+
+Output:
+welcomeNLP.mp3 audio file is getting created and it plays the file with playsound()
+method, while running the program.
+
+c) Convert audio file Speech to Text.
+Source code:
+Note: required to store the input file "male.wav" in the current folder before running the 
+program.
+#pip3 install SpeechRecognition pydub
+import speech_recognition as sr
+filename = "male.wav"
+# initialize the recognizer
+r = sr.Recognizer()
+# open the file
+with sr.AudioFile(filename) as source:
+ # listen for the data (load audio to memory)
+ audio_data = r.record(source)
+ # recognize (convert from speech to text)
+ text = r.recognize_google(audio_data)
+ print(text)
+
+Input:
+male.wav (any wav file)
+
+
