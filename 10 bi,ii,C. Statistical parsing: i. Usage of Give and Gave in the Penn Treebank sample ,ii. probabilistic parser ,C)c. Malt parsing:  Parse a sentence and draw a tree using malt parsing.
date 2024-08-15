@@ -1,0 +1,84 @@
+10 b. Statistical parsing: i. Usage of Give and Gave in the Penn Treebank sample ,ii. probabilistic parser
+Source code:
+#probabilitistic parser
+#Usage of Give and Gave in the Penn Treebank sample
+import nltk
+import nltk.parse.viterbi
+import nltk.parse.pchart
+def give(t):
+ return t.label() == 'VP' and len(t) > 2 and t[1].label() == 'NP'\
+ and (t[2].label() == 'PP-DTV' or t[2].label() == 'NP')\
+ and ('give' in t[0].leaves() or 'gave' in t[0].leaves())
+def sent(t):
+ return ' '.join(token for token in t.leaves() if token[0] not in '*-0')
+def print_node(t, width):
+ output = "%s %s: %s / %s: %s" %\
+ (sent(t[0]), t[1].label(), sent(t[1]), t[2].label(), sent(t[2]))
+ if len(output) > width:
+ output = output[:width] + "..."
+ print (output)
+for tree in nltk.corpus.treebank.parsed_sents():
+ for t in tree.subtrees(give):
+ print_node(t, 72)
+
+ii. probabilistic parser
+Source code:
+import nltk
+from nltk import PCFG
+grammar = PCFG.fromstring('''
+NP -> NNS [0.5] | JJ NNS [0.3] | NP CC NP [0.2]
+NNS -> "men" [0.1] | "women" [0.2] | "children" [0.3] | NNS CC NNS [0.4]
+JJ -> "old" [0.4] | "young" [0.6]
+CC -> "and" [0.9] | "or" [0.1]
+''')
+print(grammar)
+viterbi_parser = nltk.ViterbiParser(grammar)
+token = "old men and women".split()
+obj = viterbi_parser.parse(token)
+print("Output: ")
+for x in obj:
+ print(x)
+
+
+ii. probabilistic parser
+Source code:
+import nltk
+from nltk import PCFG
+grammar = PCFG.fromstring('''
+NP -> NNS [0.5] | JJ NNS [0.3] | NP CC NP [0.2]
+NNS -> "men" [0.1] | "women" [0.2] | "children" [0.3] | NNS CC NNS [0.4]
+JJ -> "old" [0.4] | "young" [0.6]
+CC -> "and" [0.9] | "or" [0.1]
+''')
+print(grammar)
+viterbi_parser = nltk.ViterbiParser(grammar)
+token = "old men and women".split()
+obj = viterbi_parser.parse(token)
+print("Output: ")
+for x in obj:
+ print(x)
+
+
+c. Malt parsing:
+ Parse a sentence and draw a tree using malt parsing.
+Note: 1) Java should be installed.
+2) maltparser-1.7.2 zip file should be copied in C:\Users\Beena 
+Kapadia\AppData\Local\Programs\Python\Python39 folder and should be 
+extracted in the same folder.
+3) engmalt.linear-1.7.mco file should be copied to C:\Users\Beena 
+Kapadia\AppData\Local\Programs\Python\Python39 folder
+Source code:
+# copy maltparser-1.7.2(unzipped version) and engmalt.linear-1.7.mco files to 
+C:\Users\Beena Kapadia\AppData\Local\Programs\Python\Python39 folder
+# java should be installed
+# environment variables should be set - MALT_PARSER - C:\Users\Beena 
+Kapadia\AppData\Local\Programs\Python\Python39\maltparser-1.7.2 and 
+MALT_MODEL - C:\Users\Beena 
+Kapadia\AppData\Local\Programs\Python\Python39\engmalt.linear-1.7.mco
+from nltk.parse import malt
+mp = malt.MaltParser('maltparser-1.7.2', 'engmalt.linear-1.7.mco')#file
+t = mp.parse_one('I saw a bird from my window.'.split()).tree()
+print(t)
+t.draw()
+
+
