@@ -1,0 +1,67 @@
+6. Illustrate part of speech tagging. a. Part of speech Tagging and chunking of user defined text, b. Named Entity recognition of user defined text, c. Named Entity recognition with diagram using NLTK corpus – treebank
+POS Tagging, chunking and NER:
+
+a) sentence tokenization, word tokenization, Part of speech Tagging and chunking 
+of user defined text.
+Source code:
+
+
+import nltk
+from nltk import tokenize
+nltk.download('punkt')
+from nltk import tag
+from nltk import chunk
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+para = "Hello! My name is Beena Kapadia. Today you'll be learning NLTK."
+sents = tokenize.sent_tokenize(para)
+print("\nsentence tokenization\n===================\n",sents)
+# word tokenization
+print("\nword tokenization\n===================\n")
+for index in range(len(sents)):
+ words = tokenize.word_tokenize(sents[index])
+ print(words)
+ 
+# POS Tagging
+tagged_words = []
+for index in range(len(sents)):
+ tagged_words.append(tag.pos_tag(words))
+print("\nPOS Tagging\n===========\n",tagged_words)
+# chunking
+tree = []
+for index in range(len(sents)):
+ tree.append(chunk.ne_chunk(tagged_words[index]))
+print("\nchunking\n========\n")
+print(tree)
+
+
+b) Named Entity recognition using user defined text.
+Source code:
+!pip install -U spacy
+!python -m spacy download en_core_web_sm
+import spacy
+# Load English tokenizer, tagger, parser and NER
+nlp = spacy.load("en_core_web_sm")
+# Process whole documents
+text = ("When Sebastian Thrun started working on self-driving cars at "
+ "Google in 2007, few people outside of the company took him "
+ "seriously. “I can tell you very senior CEOs of major American "
+ "car companies would shake my hand and turn away because I wasn’t "
+ "worth talking to,” said Thrun, in an interview with Recode earlier "
+ "this week.")
+doc = nlp(text)
+# Analyse syntax
+print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
+print("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
+
+
+c) Named Entity recognition with diagram using NLTK corpus – treebank.
+Source code:
+Note: It runs on Python IDLE
+import nltk
+nltk.download('treebank')
+from nltk.corpus import treebank_chunk
+treebank_chunk.tagged_sents()[0]
+treebank_chunk.chunked_sents()[0]
+treebank_chunk.chunked_sents()[0].draw()
