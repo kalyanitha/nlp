@@ -1,0 +1,58 @@
+10. a. Speech Tagging: i. Speech tagging using spacy ii. Speech tagging using nktl
+code
+import spacy
+sp = spacy.load('en_core_web_sm')
+sen = sp(u"I like to play football. I hated it in my childhood though")
+print(sen.text)
+print(sen[7].pos_)
+print(sen[7].tag_)
+print(spacy.explain(sen[7].tag_))
+for word in sen:
+ print(f'{word.text:{12}} {word.pos_:{10}} {word.tag_:{8}} 
+{spacy.explain(word.tag_)}')
+sen = sp(u'Can you google it?')
+word = sen[2]
+print(f'{word.text:{12}} {word.pos_:{10}} {word.tag_:{8}} 
+{spacy.explain(word.tag_)}')
+sen = sp(u'Can you search it on google?')
+word = sen[5]
+print(f'{word.text:{12}} {word.pos_:{10}} {word.tag_:{8}} 
+{spacy.explain(word.tag_)}')
+#Finding the Number of POS Tags
+sen = sp(u"I like to play football. I hated it in my childhood though")
+num_pos = sen.count_by(spacy.attrs.POS)
+num_pos
+for k,v in sorted(num_pos.items()):
+ print(f'{k}. {sen.vocab[k].text:{8}}: {v}')
+#Visualizing Parts of Speech Tags
+from spacy import displacy
+sen = sp(u"I like to play football. I hated it in my childhood though")
+displacy.serve(sen, style='dep', options={'distance': 120})
+
+To view the dependency tree, type the following address in your browser: 
+http://127.0.0.1:5000/. You will see the following dependency tree:
+
+
+ii. Speech tagging using nktl
+code:
+import nltk
+from nltk.corpus import state_union
+from nltk.tokenize import PunktSentenceTokenizer
+#create our training and testing data:
+train_text = state_union.raw("2005-GWBush.txt")
+sample_text = state_union.raw("2006-GWBush.txt")
+#train the Punkt tokenizer like:
+custom_sent_tokenizer = PunktSentenceTokenizer(train_text)
+# tokenize:
+tokenized = custom_sent_tokenizer.tokenize(sample_text)
+def process_content():
+ try:
+ for i in tokenized[:2]:
+ words = nltk.word_tokenize(i)
+ tagged = nltk.pos_tag(words)
+print(tagged)
+ except Exception as e:
+ print(str(e))
+process_content()
+
+
